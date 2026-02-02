@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test)",
+      "Bash(npm run lint)",
+      "Bash(timeout 10 npm run lint)",
+      "Bash(npm run build:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm test:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm ls:*)",
+      "Bash(find:*)",
+      "Bash(npm search:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "mcp__playwright__browser_navigate",
+      "Bash(npm run dev:*)",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_evaluate",
+      "Bash(npm update:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
