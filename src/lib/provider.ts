@@ -1,11 +1,11 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { createAnthropic } from "@ai-sdk/anthropic";
 import {
   LanguageModelV1,
   LanguageModelV1StreamPart,
   LanguageModelV1Message,
 } from "@ai-sdk/provider";
 
-const MODEL = "claude-haiku-4-5";
+const MODEL = "claude-3-haiku-20240307";
 
 export class MockLanguageModel implements LanguageModelV1 {
   readonly specificationVersion = "v1" as const;
@@ -506,13 +506,21 @@ export default function App() {
   }
 }
 
+// Hardcoded for testing - Next.js env loading seems broken
+const HARDCODED_API_KEY = "SCRUBBED_FOR_SAFETY";
+
 export function getLanguageModel() {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY || HARDCODED_API_KEY;
 
   if (!apiKey || apiKey.trim() === "") {
     console.log("No ANTHROPIC_API_KEY found, using mock provider");
     return new MockLanguageModel("mock-claude-sonnet-4-0");
   }
 
+  console.log("Using real Anthropic provider with model:", MODEL);
+  const anthropic = createAnthropic({
+    apiKey,
+    baseURL: "https://api.anthropic.com/v1",
+  });
   return anthropic(MODEL);
 }

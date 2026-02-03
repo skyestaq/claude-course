@@ -5,6 +5,8 @@ import {
   useContext,
   ReactNode,
   useEffect,
+  useState,
+  useCallback,
 } from "react";
 import { useChat as useAIChat } from "@ai-sdk/react";
 import { Message } from "ai";
@@ -32,12 +34,11 @@ export function ChatProvider({
   initialMessages = [],
 }: ChatContextProps & { children: ReactNode }) {
   const { fileSystem, handleToolCall } = useFileSystem();
+  const [input, setInput] = useState("");
 
   const {
     messages,
-    input,
-    handleInputChange,
-    handleSubmit,
+    sendMessage,
     status,
   } = useAIChat({
     api: "/api/chat",
@@ -47,9 +48,36 @@ export function ChatProvider({
       projectId,
     },
     onToolCall: ({ toolCall }) => {
+      console.log("Tool call received - full object:", JSON.stringify(toolCall, null, 2));
+      console.log("Tool call keys:", Object.keys(toolCall));
       handleToolCall(toolCall);
     },
   });
+
+  // Debug: log messages whenever they change
+  useEffect(() => {
+    console.log("Messages updated:", JSON.stringify(messages, null, 2));
+  }, [messages]);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+  }, []);
+
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (input.trim()) {
+      sendMessage(
+        { text: input },
+        {
+          body: {
+            files: fileSystem.serialize(),
+            projectId,
+          },
+        }
+      );
+      setInput("");
+    }
+  }, [input, sendMessage, fileSystem, projectId]);
 
   // Track anonymous work
   useEffect(() => {

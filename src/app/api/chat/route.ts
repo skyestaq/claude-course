@@ -8,20 +8,39 @@ import { getSession } from "@/lib/auth";
 import { getLanguageModel } from "@/lib/provider";
 import { generationPrompt } from "@/lib/prompts/generation";
 
+// Convert UI Message format (with parts) to standard format (with content)
+function convertUIMessagesToStandard(uiMessages: any[]): any[] {
+  return uiMessages.map((msg) => {
+    if (msg.parts) {
+      // UI Message format - convert to standard
+      const textParts = msg.parts
+        .filter((p: any) => p.type === "text")
+        .map((p: any) => p.text)
+        .join("");
+      return {
+        role: msg.role,
+        content: textParts,
+      };
+    }
+    // Already in standard format
+    return msg;
+  });
+}
+
 export async function POST(req: Request) {
   const {
-    messages,
+    messages: rawMessages,
     files,
     projectId,
   }: { messages: any[]; files: Record<string, FileNode>; projectId?: string } =
     await req.json();
 
+  // Convert UI messages to standard format
+  const messages = convertUIMessagesToStandard(rawMessages);
+
   messages.unshift({
     role: "system",
     content: generationPrompt,
-    providerOptions: {
-      anthropic: { cacheControl: { type: "ephemeral" } },
-    },
   });
 
   // Reconstruct the VirtualFileSystem from serialized data
@@ -83,7 +102,7 @@ export async function POST(req: Request) {
     },
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }
 
 export const maxDuration = 120;

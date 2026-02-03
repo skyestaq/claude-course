@@ -1,0 +1,31 @@
+
+> uigen@0.1.0 dev
+> NODE_OPTIONS='--require ./node-compat.cjs' next dev --turbopack
+
+ ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+ ⚠ Mismatching @next/swc version, detected: 15.5.7 while Next.js is on 15.5.11. Please ensure these match
+   ▲ Next.js 15.5.11 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.77.77:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Compiled middleware in 163ms
+ ✓ Ready in 1183ms
+ ○ Compiling / ...
+ ✓ Compiled / in 5.3s
+ GET / 200 in 4648ms
+ GET / 200 in 4649ms
+ ✓ Compiled /favicon.ico in 387ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 692ms
+ GET /favicon.ico?favicon.0b3bf435.ico 200 in 697ms
+ GET / 200 in 71ms
+ HEAD / 200 in 82ms
+ GET / 200 in 242ms
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 1469ms
+Using real Anthropic provider with model: claude-3-haiku-20240307
+API Key exists: true
+Using mock provider: false
+ POST /api/chat 200 in 7627ms
+ GET / 200 in 505ms

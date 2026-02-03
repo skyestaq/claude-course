@@ -11,7 +11,8 @@ import { VirtualFileSystem, FileNode } from "@/lib/file-system";
 
 interface ToolCall {
   toolName: string;
-  args: any;
+  args?: any;
+  input?: any;
 }
 
 interface FileSystemContextType {
@@ -144,11 +145,13 @@ export function FileSystemProvider({
 
   const handleToolCall = useCallback(
     (toolCall: ToolCall) => {
-      const { toolName, args } = toolCall;
+      const { toolName, args, input } = toolCall;
+      // AI SDK v5+ uses 'input', older versions use 'args'
+      const toolArgs = input || args;
 
       // Handle str_replace_editor tool
-      if (toolName === "str_replace_editor" && args) {
-        const { command, path, file_text, old_str, new_str, insert_line } = args;
+      if (toolName === "str_replace_editor" && toolArgs) {
+        const { command, path, file_text, old_str, new_str, insert_line } = toolArgs;
 
         switch (command) {
           case "create":
@@ -187,8 +190,8 @@ export function FileSystemProvider({
       }
 
       // Handle file_manager tool
-      if (toolName === "file_manager" && args) {
-        const { command, path, new_path } = args;
+      if (toolName === "file_manager" && toolArgs) {
+        const { command, path, new_path } = toolArgs;
 
         switch (command) {
           case "rename":

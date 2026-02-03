@@ -25,7 +25,16 @@
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_network_requests",
       "mcp__playwright__browser_evaluate",
-      "Bash(npm update:*)"
+      "Bash(npm update:*)",
+      "Bash(npm run setup:*)",
+      "WebFetch(domain:ai-sdk.dev)",
+      "Bash(ls:*)",
+      "mcp__playwright__browser_take_screenshot",
+      "Bash(lsof:*)",
+      "Bash(curl:*)",
+      "Bash(test:*)",
+      "Bash(pkill:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
