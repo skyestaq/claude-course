@@ -506,11 +506,11 @@ export default function App() {
   }
 }
 
-// Hardcoded for testing - Next.js env loading seems broken
-const HARDCODED_API_KEY = "SCRUBBED_FOR_SAFETY";
+// Fallback when no API key is provided
+const FALLBACK_KEY = "";
 
 export function getLanguageModel() {
-  const apiKey = process.env.ANTHROPIC_API_KEY || HARDCODED_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY || FALLBACK_KEY;
 
   if (!apiKey || apiKey.trim() === "") {
     console.log("No ANTHROPIC_API_KEY found, using mock provider");
